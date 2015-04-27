@@ -42,7 +42,7 @@
     _wheelView = [[JSWheelView alloc] initWithFrame:CGRectMake(10, 0, self.view.bounds.size.width-20, self.view.bounds.size.height-100)];
     [_wheelView setAutoresizesSubviews:YES];
     [_wheelView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [_wheelView setShowSectionAndRow:YES];
+    [_wheelView setShowSectionAndRow:NO];
     [_wheelView setDataSource:self];
     [_wheelView setDelegate:self];
     [self.view addSubview:_wheelView];
@@ -65,19 +65,22 @@
 
 - (NSString *)wheelView:(JSWheelView *)wheelView titleForSection:(NSInteger)section
 {
-    NSString* key = [[_datas allKeys] objectAtIndex:section];
+//    NSString* key = [[_datas allKeys] objectAtIndex:section];
+    NSString* key = [NSString stringWithFormat:@"Section %d", section+1];
     return key;
 }
 
 - (NSInteger)wheelView:(JSWheelView *)wheelView numberOfRowsInSection:(NSInteger)section
 {
-    NSString* key = [[_datas allKeys] objectAtIndex:section];
+//    NSString* key = [[_datas allKeys] objectAtIndex:section];
+    NSString* key = [NSString stringWithFormat:@"Section %d", section+1];
     return [[_datas objectForKey:key] count];
 }
 
 - (id)wheelView:(JSWheelView *)wheelView dataForWheelIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* key = [[_datas allKeys] objectAtIndex:indexPath.section];
+//    NSString* key = [[_datas allKeys] objectAtIndex:indexPath.section];
+    NSString* key = [NSString stringWithFormat:@"Section %d", indexPath.section+1];
     return [[_datas objectForKey:key] objectAtIndex:indexPath.row];
 }
 
@@ -87,6 +90,16 @@
     int row = 0;
     [_informationLabel setText:[NSString stringWithFormat:@"section : %d \nrow : %d \ndata : %@", section, row, @""]];
     return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
+- (UIColor *)wheelViewTitleColorForNormal:(JSWheelView *)wheelView
+{
+    return [UIColor blackColor];
+}
+
+- (UIColor *)wheelViewTitleColorForHighlight:(JSWheelView *)wheelView
+{
+    return [UIColor redColor];
 }
 
 #pragma mark - JSWheelViewDelegate

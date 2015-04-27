@@ -50,6 +50,8 @@
 - (NSInteger)wheelView:(JSWheelView *)wheelView numberOfRowsInSection:(NSInteger)section;
 - (NSString*)wheelView:(JSWheelView *)wheelView titleForSection:(NSInteger)section;
 - (UIFont*)wheelViewTitleFont:(JSWheelView *)wheelView;
+- (UIColor*)wheelViewTitleColorForNormal:(JSWheelView *)wheelView;
+- (UIColor*)wheelViewTitleColorForHighlight:(JSWheelView *)wheelView;
 - (id)wheelView:(JSWheelView *)wheelView dataForWheelIndexPath:(NSIndexPath*)indexPath;
 - (NSIndexPath*)indexPathForAfterLoad:(JSWheelView*)wheelView;
 @end

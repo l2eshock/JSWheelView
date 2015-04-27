@@ -7,6 +7,7 @@
 //
 
 #import "JSWheelView.h"
+#import "JSArcTextView.h"
 #import <AudioToolbox/AudioServices.h>
 
 #define SHOW_HANDLE_SHADOW_MASK 1
@@ -68,6 +69,8 @@ typedef enum{
     NSIndexPath* _currentIndexPath;
     CGPoint _prevTouchLocation;
     UIFont* _titleFont;
+    UIColor* _titleColorForNormal;
+    UIColor* _titleColorForHighlight;
     float _handleShadowPadding;
     CGPoint _centerPoint;
     int _skipFrame;
@@ -83,7 +86,7 @@ typedef enum{
     CAShapeLayer* _handleShadowMaskLayer;
     CAGradientLayer* _handleShadowInnerMaskLayer;
     CAShapeLayer* _handleMaskLayer;
-    //Ishita.. variable to check whether wheel loaded from loadData.
+    //variable to check whether wheel loaded from loadData.
     BOOL isLoadedDataForWheel;
     
     float _startAngle;
@@ -115,6 +118,8 @@ typedef enum{
         _sectionTitles = [NSMutableArray new];
         _radius = (MIN(self.frame.size.width, self.frame.size.height)/2) - (HANDLE_WIDTH + (INNER_CIRCLE_WIDTH*2));
         _titleFont = [UIFont systemFontOfSize:12];
+        _titleColorForNormal = [UIColor grayColor];
+        _titleColorForHighlight = [UIColor whiteColor];
         _centerPoint = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         _startAngle = START_ANGLE;
         distance_beginTracking=0;
@@ -512,7 +517,7 @@ typedef enum{
             id data = [sectionData.datas objectAtIndex:indexPath.row];
             [self playHaptic];
             [self updateSectionTitleViews:!_isWheelTracking];
-            //Ishita..call delegate only if not called from loadData
+            //call delegate only if not called from loadData
             if (isLoadedDataForWheel){
                 //            if (isLoadedDataForWheel && isChanged){
                 if([_delegate respondsToSelector:@selector(wheelView:didSelectDataWithIndexPath:withData:)]){
@@ -642,6 +647,14 @@ typedef enum{
         _titleFont = [_dataSource wheelViewTitleFont:self];
     }
     
+    if([_dataSource respondsToSelector:@selector(wheelViewTitleColorForNormal:)]){
+        _titleColorForNormal = [_dataSource wheelViewTitleColorForNormal:self];
+    }
+    
+    if([_dataSource respondsToSelector:@selector(wheelViewTitleColorForHighlight:)]){
+        _titleColorForHighlight = [_dataSource wheelViewTitleColorForHighlight:self];
+    }
+    
     for(int i=0; i<sectionCount; i++){
         JSWheelSectionData* sectionData = [JSWheelSectionData new];
         if([_dataSource respondsToSelector:@selector(wheelView:titleForSection:)]){
@@ -712,52 +725,52 @@ typedef enum{
 
 - (void)addSectionTitleViews
 {
-//    if (_datas!=nil) {
-//        [_sectionTitles enumerateObjectsUsingBlock:^(JSArcTextView* subView, NSUInteger idx, BOOL *stop) {
-//            [subView removeFromSuperview];
-//        }];
-//        [_sectionTitles removeAllObjects];
-//        
-//        int sectionCount = [_datas count];
-//        float sectionAngle = (float)MAXANGLE/sectionCount;
-//        for (int s=0; s<sectionCount; s++) {
-//            float currentSectionAngle = (sectionAngle * (float)s);
-//            currentSectionAngle = mod(currentSectionAngle, (float)MAXANGLE);
-//            
-//            JSWheelSectionData* sectionData = [_datas objectAtIndex:s];
-//            if(sectionData){
-//                if([sectionData.sectionTitle length]>0){
-//                    [self addArcTextView:sectionData.sectionTitle withStartAngle:currentSectionAngle arcSize:sectionAngle];
-//                }
-//            }
-//        }
-//        [self updateSectionTitleViews:NO];
-//    }
+    if (_datas!=nil) {
+        [_sectionTitles enumerateObjectsUsingBlock:^(JSArcTextView* subView, NSUInteger idx, BOOL *stop) {
+            [subView removeFromSuperview];
+        }];
+        [_sectionTitles removeAllObjects];
+        
+        int sectionCount = [_datas count];
+        float sectionAngle = (float)MAXANGLE/sectionCount;
+        for (int s=0; s<sectionCount; s++) {
+            float currentSectionAngle = (sectionAngle * (float)s);
+            currentSectionAngle = mod(currentSectionAngle, (float)MAXANGLE);
+            
+            JSWheelSectionData* sectionData = [_datas objectAtIndex:s];
+            if(sectionData){
+                if([sectionData.sectionTitle length]>0){
+                    [self addArcTextView:sectionData.sectionTitle withStartAngle:currentSectionAngle arcSize:sectionAngle];
+                }
+            }
+        }
+        [self updateSectionTitleViews:NO];
+    }
 }
 
 - (void)updateSectionTitleViews:(BOOL)isHighlightAll
 {
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if(_sectionTitles != nil){
-//            NSInteger titleCount = [_sectionTitles count];
-//            if(titleCount > _currentIndexPath.section){
-//                for(int i=0; i<titleCount; i++){
-//                    JSArcTextView* textView = [_sectionTitles objectAtIndex:i];
-//                    if(isHighlightAll){
-//                        [textView setColor:[UIColor whiteColor]];
-//                    }
-//                    else{
-//                        if(i == _currentIndexPath.section){
-//                            [textView setColor:[UIColor whiteColor]];
-//                        }
-//                        else{
-//                            [textView setColor:[UIColor grayColor]];
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(_sectionTitles != nil){
+            NSInteger titleCount = [_sectionTitles count];
+            if(titleCount > _currentIndexPath.section){
+                for(int i=0; i<titleCount; i++){
+                    JSArcTextView* textView = [_sectionTitles objectAtIndex:i];
+                    if(isHighlightAll){
+                        [textView setColor:_titleColorForNormal];
+                    }
+                    else{
+                        if(i == _currentIndexPath.section){
+                            [textView setColor:_titleColorForHighlight];
+                        }
+                        else{
+                            [textView setColor:_titleColorForNormal];
+                        }
+                    }
+                }
+            }
+        }
+    });
 }
 
 - (void)moveHandle:(NSValue*)lastPointValue
@@ -851,17 +864,17 @@ typedef enum{
 
 - (void)addArcTextView:(NSString*)text withStartAngle:(float)startAngle arcSize:(float)arcSize
 {
-//    JSArcTextView* textView = [[JSArcTextView alloc] initWithFrame:self.bounds];
-//    [textView setUserInteractionEnabled:NO];
-//    textView.text = text;
-//    textView.textAttributes = @{NSFontAttributeName:_titleFont, NSForegroundColorAttributeName:[UIColor grayColor]};
-//    textView.textAlignment = NSTextAlignmentCenter;
-//    textView.verticalTextAlignment = JSArcTextTypeVerticalAlignCenter;
-//    
-//    textView.baseAngle = [JSWheelView toRadian:-_startAngle+startAngle+(arcSize/2) withMax:(float)MAXANGLE];
-//    textView.radius = _radius;
-//    [self addSubview:textView];
-//    [_sectionTitles addObject:textView];
+    JSArcTextView* textView = [[JSArcTextView alloc] initWithFrame:self.bounds];
+    [textView setUserInteractionEnabled:NO];
+    textView.text = text;
+    textView.textAttributes = @{NSFontAttributeName:_titleFont, NSForegroundColorAttributeName:_titleColorForNormal};
+    textView.textAlignment = NSTextAlignmentCenter;
+    textView.verticalTextAlignment = JSArcTextTypeVerticalAlignCenter;
+    
+    textView.baseAngle = [JSWheelView toRadian:-_startAngle+startAngle+(arcSize/2) withMax:(float)MAXANGLE];
+    textView.radius = _radius;
+    [self addSubview:textView];
+    [_sectionTitles addObject:textView];
 }
 
 - (void)playHaptic

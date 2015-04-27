@@ -15,6 +15,7 @@
 		EF89D1331ACBB2F600A7A1E2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF89D1311ACBB2F600A7A1E2 /* LaunchScreen.xib */; };
 		EF89D13F1ACBB2F600A7A1E2 /* JSWheelViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF89D13E1ACBB2F600A7A1E2 /* JSWheelViewTests.m */; };
 		EF89D14B1ACBB32500A7A1E2 /* JSWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF89D14A1ACBB32500A7A1E2 /* JSWheelView.m */; };
+		EF8ED6381AEDFBCD00F77915 /* JSArcTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8ED6371AEDFBCD00F77915 /* JSArcTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		EF89D13E1ACBB2F600A7A1E2 /* JSWheelViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSWheelViewTests.m; sourceTree = "<group>"; };
 		EF89D1491ACBB32500A7A1E2 /* JSWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSWheelView.h; sourceTree = "<group>"; };
 		EF89D14A1ACBB32500A7A1E2 /* JSWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSWheelView.m; sourceTree = "<group>"; };
+		EF8ED6361AEDFBCD00F77915 /* JSArcTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSArcTextView.h; sourceTree = "<group>"; };
+		EF8ED6371AEDFBCD00F77915 /* JSArcTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSArcTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,8 @@
 		EF89D1481ACBB32500A7A1E2 /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				EF8ED6361AEDFBCD00F77915 /* JSArcTextView.h */,
+				EF8ED6371AEDFBCD00F77915 /* JSArcTextView.m */,
 				EF89D1491ACBB32500A7A1E2 /* JSWheelView.h */,
 				EF89D14A1ACBB32500A7A1E2 /* JSWheelView.m */,
 			);
@@ -233,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF89D12B1ACBB2F600A7A1E2 /* ViewController.m in Sources */,
+				EF8ED6381AEDFBCD00F77915 /* JSArcTextView.m in Sources */,
 				EF89D14B1ACBB32500A7A1E2 /* JSWheelView.m in Sources */,
 				EF89D1281ACBB2F600A7A1E2 /* AppDelegate.m in Sources */,
 				EF89D1251ACBB2F600A7A1E2 /* main.m in Sources */,
@@ -426,6 +432,7 @@
 				EF89D1441ACBB2F600A7A1E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EF89D1451ACBB2F600A7A1E2 /* Build configuration list for PBXNativeTarget "JSWheelViewTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +441,7 @@
 				EF89D1471ACBB2F600A7A1E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
