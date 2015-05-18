@@ -231,7 +231,7 @@
 {
     NSMutableDictionary *textAttributes = [self.textAttributes mutableCopy];
     [textAttributes setValue:color forKey:NSForegroundColorAttributeName];
-    self.textAttributes = [textAttributes copy];
+    self.textAttributes = textAttributes;
 }
 
 #pragma mark - Getters & Setters
@@ -255,7 +255,7 @@
     _textAttributes = textAttributes;
     
     //since the characteristics of the font changed, we need to fluch the kerning cache.
-    self.kerningCacheDictionary = nil;
+    [self clearKerningCache];
     [self setNeedsDisplay];
 }
 

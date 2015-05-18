@@ -273,7 +273,8 @@ typedef enum{
     [self drawInnerBackgroundLayer];
     [self drawMaskLayer];
     [self drawCenterImageLayer];
-    [self addSectionTitleViews];
+//    [self addSectionTitleViews];
+    [self updateSectionTitleViews:NO];
     isLoadedDataForWheel = NO;
     [self setHandleToIndexPath:_currentIndexPath];
     isLoadedDataForWheel = YES;
