@@ -43,6 +43,11 @@
         [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", @"32", @"33", @"34", @"35"] forKey:@"Section 3"];
         [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10"] forKey:@"Section 4"];
         [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10"] forKey:@"Section 5"];
+        [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17"] forKey:@"Section 6"];
+        [_datas setObject:@[@"0", @"1", @"2", @"3"] forKey:@"Section 7"];
+        [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20", @"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", @"31", @"32", @"33", @"34", @"35"] forKey:@"Section 8"];
+        [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10"] forKey:@"Section 9"];
+        [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10"] forKey:@"Section 10"];
     }
     else{
         [_datas setObject:@[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17"] forKey:@"Section 1"];
@@ -56,7 +61,7 @@
     _wheelView = [[JSWheelView alloc] initWithFrame:CGRectMake(10, 0, self.view.bounds.size.width-20, self.view.bounds.size.height-100)];
     [_wheelView setAutoresizesSubviews:YES];
     [_wheelView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [_wheelView setShowSectionAndRow:NO];
+    [_wheelView setShowSectionAndRow:YES];
     [_wheelView setDataSource:self];
     [_wheelView setDelegate:self];
     [self.view addSubview:_wheelView];

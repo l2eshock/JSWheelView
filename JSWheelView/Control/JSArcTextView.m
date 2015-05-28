@@ -8,12 +8,15 @@
 
 #import "JSArcTextView.h"
 
-@interface JSArcTextView ()
+@interface JSArcTextView (){
+    NSMutableDictionary* _textAttributes;
+}
 @property (nonatomic) CGPoint circleCenterPoint;
 @property (strong,nonatomic) NSMutableDictionary *kerningCacheDictionary;
 @end
 
 @implementation JSArcTextView
+@synthesize textAttributes = _textAttributes;
 
 - (id)init
 {
@@ -62,8 +65,8 @@
     }
     
     //Get the string size.
-	CGSize stringSize = [self.text sizeWithAttributes:self.textAttributes];
-//	CGSize stringSize = [self.text sizeWithAttributesForAlliOS:self.textAttributes];
+	CGSize stringSize = [self.text sizeWithAttributes:_textAttributes];
+//	CGSize stringSize = [self.text sizeWithAttributesForAlliOS:_textAttributes];
 	
     //If the radius not set, calculate the maximum radius.
     float radius = (self.radius <=0) ? [self maximumRadiusWithStringSize:stringSize andVerticalAlignment:self.verticalTextAlignment] : self.radius;
@@ -113,8 +116,8 @@
         NSString *currentCharacter = [self.text substringWithRange:NSMakeRange(charIdx, 1)];
         
         //Set currenct character size & kerning.
-		CGSize stringSize = [currentCharacter sizeWithAttributes:self.textAttributes];
-//		CGSize stringSize = [currentCharacter sizeWithAttributesForAlliOS:self.textAttributes];
+		CGSize stringSize = [currentCharacter sizeWithAttributes:_textAttributes];
+//		CGSize stringSize = [currentCharacter sizeWithAttributesForAlliOS:_textAttributes];
 		
         float kerning = (lastCharacter) ? [self kerningForCharacter:currentCharacter afterCharacter:lastCharacter] : 0;
         
@@ -141,14 +144,14 @@
         CGContextTranslateCTM(context, -characterPoint.x, -characterPoint.y);
         
         //Draw the character
-        [currentCharacter drawAtPoint:stringPoint withAttributes:self.textAttributes];
+        [currentCharacter drawAtPoint:stringPoint withAttributes:_textAttributes];
 //        if(IS_IOS6){
-//            UIColor* textColor = (UIColor*)[self.textAttributes objectForKey:NSForegroundColorAttributeName];
+//            UIColor* textColor = (UIColor*)[_textAttributes objectForKey:NSForegroundColorAttributeName];
 //            if(textColor){
 //                CGContextSetFillColorWithColor(context, textColor.CGColor);
 //            }
 //        }
-//		[currentCharacter drawAtPointAlliOS:stringPoint withAttributes:self.textAttributes];
+//		[currentCharacter drawAtPointAlliOS:stringPoint withAttributes:_textAttributes];
 		
         //Restore context to make sure the rotation is only applied to this character.
         CGContextRestoreGState(context);
@@ -192,11 +195,11 @@
     }
     
     //Otherwise, calculate.
-    float totalSize = [[NSString stringWithFormat:@"%@%@", previousCharacter, currentCharacter] sizeWithAttributes:self.textAttributes].width;
+    float totalSize = [[NSString stringWithFormat:@"%@%@", previousCharacter, currentCharacter] sizeWithAttributes:_textAttributes].width;
 //	float totalSize = [[NSString stringWithFormat:@"%@%@", previousCharacter, currentCharacter] sizeWithAttributesForAlliOS:self.textAttributes].width;
 	
-    float currentCharacterSize = [currentCharacter sizeWithAttributes:self.textAttributes].width;
-    float previousCharacterSize = [previousCharacter sizeWithAttributes:self.textAttributes].width;
+    float currentCharacterSize = [currentCharacter sizeWithAttributes:_textAttributes].width;
+    float previousCharacterSize = [previousCharacter sizeWithAttributes:_textAttributes].width;
     
     float kerning = (currentCharacterSize + previousCharacterSize) - totalSize;
     
@@ -229,9 +232,11 @@
 
 - (void)setColor:(UIColor *)color
 {
-    NSMutableDictionary *textAttributes = [self.textAttributes mutableCopy];
-    [textAttributes setValue:color forKey:NSForegroundColorAttributeName];
-    self.textAttributes = textAttributes;
+    UIColor* presentColor = [_textAttributes valueForKey:NSForegroundColorAttributeName];
+    if(!CGColorEqualToColor(presentColor.CGColor, color.CGColor)){
+        [_textAttributes setValue:color forKey:NSForegroundColorAttributeName];
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark - Getters & Setters
@@ -252,7 +257,7 @@
 
 - (void)setTextAttributes:(NSDictionary *)textAttributes
 {
-    _textAttributes = textAttributes;
+    _textAttributes = [textAttributes mutableCopy];
     
     //since the characteristics of the font changed, we need to fluch the kerning cache.
     [self clearKerningCache];
